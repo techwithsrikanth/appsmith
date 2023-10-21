@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { setDebuggerSelectedTab, showDebugger } from "actions/debuggerActions";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,17 +31,22 @@ export function EvaluatedValueDebugButton(props: {
   error: Message;
   entity?: FieldEntityInformation;
 }) {
+  const [menuVisible, setMenuVisible] = useState(false);
+
   return (
     <Wrapper>
-      <ContextualMenu
-        enableTooltip={false}
-        entity={props.entity}
-        error={props.error}
-      >
+      <div onClick={() => setMenuVisible(!menuVisible)}>
         <EVDebugButton endIcon="down-arrow" kind="error" size="sm">
           Debug
         </EVDebugButton>
-      </ContextualMenu>
+      </div>
+      {menuVisible && (
+        <ContextualMenu
+          enableTooltip={false}
+          entity={props.entity}
+          error={props.error}
+        />
+      )}
     </Wrapper>
   );
 }
